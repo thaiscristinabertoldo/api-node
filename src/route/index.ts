@@ -26,12 +26,6 @@ export const Routes = [
     action: 'one',
   },
   {
-    method: 'post',
-    route: '/users',
-    controller: UserController,
-    action: 'create',
-  },
-  {
     method: 'put',
     route: '/users/:id',
     controller: UserController,

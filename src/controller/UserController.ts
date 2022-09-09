@@ -51,22 +51,31 @@ export class UserController {
       const user = await UserSchema.findById(request.params.id)
 
       if (!user) {
-        return response.status(404).json('Usuário não encontrado.')
+        return response.status(404).json({ error: 'Usuário não encontrado.' })
       }
 
       const emailAlreadyExists = await UserSchema.findOne({
         email: request.body.email,
+        _id: { $ne: request.params.id },
       })
 
-      if (emailAlreadyExists && emailAlreadyExists._id !== request.params.id) {
+      if (emailAlreadyExists) {
         return response.status(400).json({
           error: 'E-mail já existe!',
         })
       }
 
-      return UserSchema.findOneAndUpdate({ _id: request.params.id }, request.body, {
+      request.body.password = !!request.body.password?.lenght
+        ? await bcrypt.hash(request.body.password, 10)
+        : user.password
+
+      const newUSer = await UserSchema.findOneAndUpdate({ _id: request.params.id }, request.body, {
         new: true,
       })
+      if (newUSer) {
+        newUSer.password = ''
+      }
+      return response.status(200).json(newUSer)
     } catch (error) {
       return response.status(500).json({
         error: 'Falha ao atualizar o usuário!',
@@ -88,7 +97,7 @@ export class UserController {
       if (result) {
         const { SECRET = 'secret' } = process.env
         const token = jwt.sign({ email: user.email, fullName: user.fullName, _id: user._id }, SECRET)
-        return response.json({ token })
+        return response.json({ token, userId: user._id, fullName: user.fullName })
       }
 
       return response.status(401).json({

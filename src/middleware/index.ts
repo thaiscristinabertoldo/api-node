@@ -11,7 +11,6 @@ export const isLoggedIn = async (request: Request, response: Response, next: Fun
       if (token) {
         const { SECRET = 'secret' } = process.env
 
-        console.log('token', SECRET)
         const payload = jwt.verify(token, SECRET)
         if (payload) {
           next()
