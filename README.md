@@ -1,6 +1,8 @@
-# node-api
+# ConnectLab
 
 API Node usando [express](https://expressjs.com/pt-br/)
+
+A API está disponível para teste em [ConnectLab](https://connectlab.onrender.com/)
 
 ## Primeiros passos
 
