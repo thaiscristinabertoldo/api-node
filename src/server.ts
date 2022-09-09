@@ -31,9 +31,9 @@ async function bootstrap() {
     })
   })
 
-  app.listen(5001)
+  app.listen(8080)
 
-  console.log('Express server has started on port 5001. Open http://localhost:5001 to see results')
+  console.log('Express server has started on port 8080. Open http://localhost:8080 to see results')
 }
 
 bootstrap()
