@@ -31,9 +31,11 @@ async function bootstrap() {
     })
   })
 
-  app.listen(8080)
+  const PORT = process.env.PORT || 3030
 
-  console.log('Express server has started on port 8080. Open http://localhost:8080 to see results')
+  app.listen(PORT)
+
+  console.log(`Express server has started on port ${PORT}. Open http://localhost:${PORT} to see results`)
 }
 
 bootstrap()
